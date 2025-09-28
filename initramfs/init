@@ -59,8 +59,13 @@ ifconfig eth0 hw ether $(dd if=/dev/mtd0 bs=1 skip=1046528 count=17 2>/dev/null)
 echo 1 > /proc/sys/net/ipv6/conf/eth0/disable_ipv6
 ifconfig eth0 0.0.0.0 up
 udhcpc -i eth0 -s /etc/udhcpc.script -v
-date -s 2024.06.16-12:00:00
-ntpd -n -q -p pool.ntp.org
+if command -v ntpdate &> /dev/null; then
+    echo "# Syncing time"
+    ntpdate -u pool.ntp.org
+else
+    echo "# ntpdate not found, skipping time sync"
+    hwclock --systohc
+fi
 while  [ ! -b /dev/sda1 ]; do mdev -s;done
 
 if [ -b /dev/sdb1 ]; then

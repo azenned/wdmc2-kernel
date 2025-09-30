@@ -21,7 +21,7 @@ jobs:
   # This workflow contains a single job called "build"
   build-kernel:
     # The type of runner that the job will run on
-    runs-on: [ self-hosted ]
+    runs-on: ubuntu-22.04
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -29,10 +29,6 @@ jobs:
       - uses: actions/checkout@v4
         with: 
           clean: 'false'
-
-      # Runs a single command using the runners shell
-      - name: run build script for kernel 5.15.y
-        run: ./build.sh --ghrunner --kernel --clean --kernelbranch linux-5.15.y
 
       # Runs a single command using the runners shell
       - name: run build script for kernel 6.1.y
